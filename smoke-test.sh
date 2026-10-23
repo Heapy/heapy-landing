@@ -17,7 +17,7 @@ docker exec "$container" sh -eu -c '
     wget -qO- http://127.0.0.1/healthz | grep -qx ok
     wget -qO- http://127.0.0.1/ | grep -q "Everything flows into"
     wget -qO- http://127.0.0.1/komok/ | grep -q "Your plans, knowledge and memories"
-    for asset in app.js style.css komok/site.js komok/style.css komok/assets/favicon.svg komok/assets/komok-stream.png komok/assets/komok-library.png; do
+    for asset in favicon.svg app.js style.css komok/site.js komok/style.css komok/assets/favicon.svg komok/assets/komok-stream.png komok/assets/komok-library.png; do
         wget -q -O /dev/null "http://127.0.0.1/$asset"
     done
     for path in missing/nested/page komok/missing STORY.md docs/architecture.md .git/config; do
