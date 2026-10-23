@@ -223,20 +223,35 @@ h2 { font-size: clamp(1.85rem, 3.4vw, 2.75rem); }
 }
 
 @media (max-width: 52rem) {
-  .page { grid-template-columns: 1fr; padding-bottom: 4rem; }
+  .page { grid-template-columns: minmax(0, 1fr); padding-bottom: 4rem; }
   .sky {
-    top: 3.4rem;
-    height: min(5vh, 30px);
-    height: min(5svh, 30px);
+    top: 3.8rem;
+    width: 100%;
+    min-width: 0;
+    height: auto;
+    aspect-ratio: 1;
     z-index: 4;
-    background: linear-gradient(var(--bg) 85%, transparent);
+    pointer-events: none;
+  }
+  .sky::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--bg);
+    transform: scaleY(var(--mobile-map-scale, 1));
+    transform-origin: top;
+  }
+  #map {
+    transform: scale(var(--mobile-map-scale, 1));
+    transform-origin: top center;
+    pointer-events: auto;
   }
   .sky-hint { display: none; }
   .story { padding-top: 1rem; }
   .chapter { min-height: 0; padding: 10vh 0 8vh; }
   .hero { min-height: 0; padding-top: 6vh; }
   .top-nav { display: none; }
-  .top { padding: .9rem 1.5rem; }
+  .top { padding: .9rem 1.5rem; background: var(--bg); }
   .tooltip { width: min(17rem, 80vw); }
 }
 

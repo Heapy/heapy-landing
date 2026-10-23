@@ -495,6 +495,8 @@ const canvas = document.getElementById("map");
 const tooltip = document.getElementById("tooltip");
 const ctx = canvas.getContext("2d");
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+const mobileMap = window.matchMedia("(max-width: 52rem)");
+const sky = canvas.closest(".sky");
 
 const state = {
   active: "komok", // "komok" | layer id | "all" | "next"
@@ -519,16 +521,29 @@ function orbitSpeed(layer) {
 }
 
 function resize() {
-  const rect = canvas.getBoundingClientRect();
+  /* CSS transforms shrink the mobile map without resizing its bitmap or layout. */
+  const width = canvas.clientWidth;
+  const height = canvas.clientHeight;
   state.dpr = Math.min(window.devicePixelRatio || 1, 2);
   /* Scale the complete drawing into compact mobile maps, including node sizes. */
-  state.renderScale = Math.min(1, rect.height / 160);
-  state.width = rect.width / state.renderScale;
-  state.height = rect.height / state.renderScale;
-  canvas.width = Math.round(rect.width * state.dpr);
-  canvas.height = Math.round(rect.height * state.dpr);
+  state.renderScale = Math.min(1, height / 160);
+  state.width = width / state.renderScale;
+  state.height = height / state.renderScale;
+  canvas.width = Math.round(width * state.dpr);
+  canvas.height = Math.round(height * state.dpr);
   layout();
+  updateMobileMap();
   if (reduceMotion.matches) draw();
+}
+
+function updateMobileMap() {
+  if (mobileMap.matches) {
+    const size = state.height * state.renderScale;
+    const height = Math.max(80, size - Math.max(0, window.scrollY));
+    sky.style.setProperty("--mobile-map-scale", `${height / size}`);
+  } else {
+    sky.style.removeProperty("--mobile-map-scale");
+  }
 }
 
 function layout() {
@@ -864,8 +879,6 @@ function setHover(id) {
 }
 
 function nodeAt(x, y) {
-  x /= state.renderScale;
-  y /= state.renderScale;
   let best = null;
   let bestD = 18;
   for (const [id, n] of state.nodes) {
@@ -879,6 +892,14 @@ function nodeAt(x, y) {
   return best;
 }
 
+function mapPoint(event) {
+  const rect = canvas.getBoundingClientRect();
+  return {
+    x: (event.clientX - rect.left) * state.width / rect.width,
+    y: (event.clientY - rect.top) * state.height / rect.height,
+  };
+}
+
 function showTooltip(id, x, y) {
   const p = byId.get(id);
   tooltip.innerHTML = "";
@@ -890,7 +911,7 @@ function showTooltip(id, x, y) {
     url ? el("p", { class: "tooltip-hint", text: isExternal(url) ? "Click to open on GitHub" : `Click to open the ${p.name} page` }) : null
   );
   tooltip.hidden = false;
-  const rect = canvas.getBoundingClientRect();
+  const rect = tooltip.parentElement.getBoundingClientRect();
   const tw = tooltip.offsetWidth;
   const left = Math.min(Math.max(8, x + 14), rect.width - tw - 8);
   const top = y + 14 + 180 > rect.height ? y - tooltip.offsetHeight - 14 : y + 14;
@@ -906,13 +927,14 @@ canvas.addEventListener("pointerenter", (ev) => {
 });
 canvas.addEventListener("pointermove", (ev) => {
   if (ev.pointerType !== "touch") state.pointerOver = true;
-  const rect = canvas.getBoundingClientRect();
-  const x = ev.clientX - rect.left;
-  const y = ev.clientY - rect.top;
+  const { x, y } = mapPoint(ev);
   const id = nodeAt(x, y);
   canvas.style.cursor = id && repoUrl(byId.get(id)) ? "pointer" : "default";
   setHover(id);
-  if (id) showTooltip(id, x, y);
+  if (id) {
+    const rect = tooltip.parentElement.getBoundingClientRect();
+    showTooltip(id, ev.clientX - rect.left, ev.clientY - rect.top);
+  }
   else hideTooltip();
 });
 canvas.addEventListener("pointerleave", () => {
@@ -921,8 +943,8 @@ canvas.addEventListener("pointerleave", () => {
   hideTooltip();
 });
 canvas.addEventListener("click", (ev) => {
-  const rect = canvas.getBoundingClientRect();
-  const id = nodeAt(ev.clientX - rect.left, ev.clientY - rect.top);
+  const { x, y } = mapPoint(ev);
+  const id = nodeAt(x, y);
   if (!id) return;
   const url = repoUrl(byId.get(id));
   if (!url) return;
@@ -938,6 +960,7 @@ function observeSections() {
   let ticking = false;
   const update = () => {
     ticking = false;
+    updateMobileMap();
     const line = window.innerHeight * 0.4;
     let best = sections[0];
     let bestD = Infinity;
@@ -969,7 +992,7 @@ renderLists();
 resize();
 seedParticles();
 observeSections();
-window.addEventListener("resize", resize);
+new ResizeObserver(resize).observe(canvas);
 reduceMotion.addEventListener?.("change", () => {
   if (reduceMotion.matches) draw();
   else requestAnimationFrame(frame);
