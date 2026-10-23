@@ -226,7 +226,8 @@ h2 { font-size: clamp(1.85rem, 3.4vw, 2.75rem); }
   .page { grid-template-columns: 1fr; padding-bottom: 4rem; }
   .sky {
     top: 3.4rem;
-    height: 42vh;
+    height: calc(100vh / 3);
+    height: calc(100svh / 3);
     z-index: 4;
     background: linear-gradient(var(--bg) 85%, transparent);
   }
@@ -241,5 +242,4 @@ h2 { font-size: clamp(1.85rem, 3.4vw, 2.75rem); }
 
 @media (max-width: 30rem) {
   body { font-size: 1rem; }
-  .sky { height: 38vh; }
 }
