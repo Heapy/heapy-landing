@@ -505,6 +505,7 @@ const state = {
   width: 0,
   height: 0,
   dpr: 1,
+  renderScale: 1,
   t: 0,
   nodes: new Map(), // id -> {x, y, r, a0, a, R, i}
   particles: [],
@@ -520,8 +521,10 @@ function orbitSpeed(layer) {
 function resize() {
   const rect = canvas.getBoundingClientRect();
   state.dpr = Math.min(window.devicePixelRatio || 1, 2);
-  state.width = rect.width;
-  state.height = rect.height;
+  /* Scale the complete drawing into compact mobile maps, including node sizes. */
+  state.renderScale = Math.min(1, rect.height / 160);
+  state.width = rect.width / state.renderScale;
+  state.height = rect.height / state.renderScale;
   canvas.width = Math.round(rect.width * state.dpr);
   canvas.height = Math.round(rect.height * state.dpr);
   layout();
@@ -627,12 +630,12 @@ function pointOnQuad(p, t) {
 }
 
 function draw() {
-  const { width: w, height: h, dpr } = state;
-  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const { width: w, height: h, dpr, renderScale } = state;
+  ctx.setTransform(dpr * renderScale, 0, 0, dpr * renderScale, 0, 0);
   ctx.clearRect(0, 0, w, h);
 
   const c = state.center;
-  const showLabels = w >= 520;
+  const showLabels = renderScale === 1 && w >= 520;
   const overview = state.active === "komok";
   const everything = state.active === "all";
 
@@ -861,6 +864,8 @@ function setHover(id) {
 }
 
 function nodeAt(x, y) {
+  x /= state.renderScale;
+  y /= state.renderScale;
   let best = null;
   let bestD = 18;
   for (const [id, n] of state.nodes) {
