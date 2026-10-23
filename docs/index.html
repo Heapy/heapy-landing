@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Heapy — everything flows into Komok</title>
+  <meta name="description" content="The story of the Heapy ecosystem: Kotlin libraries, a build toolchain, an agent harness and everyday apps, all in orbit around Komok, a personal information system.">
+  <meta name="color-scheme" content="dark">
+  <meta property="og:title" content="Heapy — everything flows into Komok">
+  <meta property="og:description" content="Kotlin libraries, a build toolchain, an agent harness and everyday apps in orbit around one personal information system.">
+  <link rel="canonical" href="https://heapy.io/">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-active="komok">
+
+<a class="skip" href="#story">Skip to the story</a>
+
+<header class="top">
+  <a class="brand" href="https://github.com/Heapy" rel="noopener">Heapy</a>
+  <nav class="top-nav" aria-label="Story">
+    <a href="#everyday">Apps</a>
+    <a href="#libraries">Foundation</a>
+    <a href="#toolchain">Build</a>
+    <a href="#harness">Harness</a>
+    <a href="#connections">Connections</a>
+    <a href="#next">Next</a>
+    <a href="komok/index.html" class="top-nav-komok">Komok</a>
+  </nav>
+</header>
+
+<main class="page">
+
+  <aside class="sky" aria-label="Map of the ecosystem">
+    <div class="sky-frame">
+      <canvas id="map" role="img" aria-label="Projects drawn as points on orbits around Komok. The list in each section carries the same information."></canvas>
+      <div id="tooltip" class="tooltip" hidden></div>
+      <p class="sky-hint">Hover a point · click to open</p>
+    </div>
+  </aside>
+
+  <div id="story" class="story">
+
+    <section class="chapter hero" data-layer="komok">
+      <p class="eyebrow">A story in six orbits</p>
+      <h1>Everything flows into <span class="komok">Komok</span>.</h1>
+      <p class="lede">
+        Komok is the end-game: a personal information system where plans, knowledge
+        and memories share one connected model. Messages, mail, contacts, photos,
+        video, podcasts, music, films, notes and tasks — everything a life
+        accumulates — kept in one place, available offline, and organised with
+        the help of language models that live inside it.
+      </p>
+      <p>
+        Small apps run inside it. It reaches out to the physical world through
+        devices and services. An agent–organiser works on your behalf, with
+        access to all of it.
+      </p>
+      <p class="muted">
+        None of that is built in one go. Each project below is a step on the way —
+        and each one is useful on its own. This page tells that story.
+        <a class="komok-link" href="komok/index.html">See what Komok looks like →</a>
+      </p>
+      <div data-projects="center"></div>
+    </section>
+
+    <section class="chapter" id="everyday" data-layer="everyday" style="--hue: 28">
+      <p class="eyebrow">Orbit one · Everyday apps</p>
+      <h2>Things I already use every day.</h2>
+      <p>
+        The closest orbit holds the applications that will dissolve into Komok
+        over time. A book library, a video-to-notes converter, a system monitor:
+        each solves one problem today and teaches what a shared model should
+        look like tomorrow.
+      </p>
+      <div data-projects="everyday"></div>
+    </section>
+
+    <section class="chapter" id="libraries" data-layer="libraries" style="--hue: 160">
+      <p class="eyebrow">Orbit two · Kotlin foundation</p>
+      <h2>What everything is made of.</h2>
+      <p>
+        Komok and its apps are Kotlin Multiplatform, so the building blocks have
+        to exist in common Kotlin first: dependency wiring, YAML, UI trees,
+        time, arbitrary-precision math, Markdown, document formats, Unicode,
+        WebAssembly, JWT, Telegram. Where the ecosystem had a gap, a library
+        appeared.
+      </p>
+      <div data-projects="libraries"></div>
+    </section>
+
+    <section class="chapter" id="toolchain" data-layer="toolchain" style="--hue: 205">
+      <p class="eyebrow">Orbit three · Build &amp; deliver</p>
+      <h2>How it gets compiled, checked and shipped.</h2>
+      <p>
+        A foundation this wide needs its own road to production. Plugins and
+        GitHub Actions wrap the JetBrains Kotlin Toolchain; Skarb turns CI
+        uploads into signed releases; kvik is the long bet — a build tool that
+        compiles itself and its plugins into a single Kotlin/Native binary and
+        speaks JSON to agents.
+      </p>
+      <div data-projects="toolchain"></div>
+    </section>
+
+    <section class="chapter" id="harness" data-layer="harness" style="--hue: 265">
+      <p class="eyebrow">Orbit four · Agent harness</p>
+      <h2>The hands that build all of this.</h2>
+      <p>
+        Most of the code in these orbits is written together with coding agents.
+        kotgent keeps their sessions, tasks, plans and reviews next to the code —
+        a harness around the harness. kortex gives them Kotlin skills, keemun
+        gives them architectural memory, kotlm gives them a model, and MCP
+        servers give them systems to act on.
+      </p>
+      <div data-projects="harness"></div>
+    </section>
+
+    <section class="chapter" id="community" data-layer="community" style="--hue: 340">
+      <p class="eyebrow">Orbit five · Community</p>
+      <h2>Where the knowledge goes.</h2>
+      <p>
+        Awesome Kotlin has catalogued the Kotlin ecosystem since 2015. It will
+        gain an MCP server so agents can browse it too, and kotomka will turn
+        talks into notes for it. kotbot serves the Kotlin community chats.
+      </p>
+      <div data-projects="community"></div>
+    </section>
+
+    <section class="chapter" id="operations" data-layer="operations" style="--hue: 50">
+      <p class="eyebrow">Orbit six · Operations</p>
+      <h2>Keeping it running.</h2>
+      <p>
+        Komok and Skarb are self-hosted. kodkod watches their containers and
+        restarts or recreates them when needed.
+      </p>
+      <div data-projects="operations"></div>
+    </section>
+
+    <section class="chapter" id="connections" data-layer="all">
+      <p class="eyebrow">How it connects</p>
+      <h2>One ecosystem, not a list.</h2>
+      <ul class="connections">
+        <li><b>Libraries feed Komok.</b> kotomi wires it, kotaml configures it, kinetica draws it, kotmark renders its notes, pombo brings its messages.</li>
+        <li><b>Apps flow into Komok.</b> kotomka, kotbusta and harmon start as standalone tools and become views over the same data.</li>
+        <li><b>kvik builds; ktc-* and Skarb deliver.</b> The toolchain compiles, checks, signs and publishes every library above.</li>
+        <li><b>kotgent builds everything.</b> The harness is where the other orbits are written, reviewed and shipped.</li>
+        <li><b>Knowledge loops back.</b> Awesome Kotlin catalogues the ecosystem Komok is built from — and will be queryable from inside it.</li>
+      </ul>
+      <p class="muted">Hover any project on the map or in the lists to trace its connections. Repositories on this page: <span data-count>—</span>.</p>
+    </section>
+
+    <section class="chapter" id="next" data-layer="next">
+      <p class="eyebrow">What's next</p>
+      <h2>Soon in Heapy.</h2>
+      <p>
+        Hollow points on the map are projects that exist locally but are not
+        public yet. They will appear on
+        <a href="https://github.com/Heapy" rel="noopener">github.com/Heapy</a> as they stabilise.
+      </p>
+      <div data-soon></div>
+      <p class="muted">
+        Beyond repositories: an MCP server for Awesome Kotlin, kvik as the build
+        tool for every project on this page, and the organiser agent inside Komok.
+      </p>
+    </section>
+
+    <footer class="chapter foot">
+      <p>
+        Full directory with setup notes: <a href="https://github.com/Heapy/.github/blob/main/docs/projects.md" rel="noopener">projects.md</a> ·
+        Catalogue: <a href="https://kotlin.link" rel="noopener">kotlin.link</a> ·
+        Source of this page: <a href="https://github.com/Heapy/.github" rel="noopener">Heapy/.github</a>
+      </p>
+      <p class="muted">Status labels are a dated snapshot, not a support commitment. Each project defines its own licence.</p>
+    </footer>
+
+  </div>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>

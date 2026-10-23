@@ -1,0 +1,7 @@
+**
+!Dockerfile
+!nginx.conf
+!docs/
+!docs/**
+docs/*.md
+docs/.nojekyll
